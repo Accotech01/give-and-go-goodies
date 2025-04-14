@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Gift, ShoppingBag } from 'lucide-react';
+import { Gift, ShoppingBag, LogIn, UserPlus } from 'lucide-react';
 
 const Header = () => {
   return (
@@ -16,17 +16,29 @@ const Header = () => {
               </div>
             </Link>
           </div>
-          <nav className="flex space-x-4">
+          <nav className="flex space-x-2">
             <Button asChild variant="ghost" className="flex items-center gap-2">
               <Link to="/donate">
                 <Gift size={18} />
-                <span>Donate Items</span>
+                <span className="hidden sm:inline">Donate Items</span>
               </Link>
             </Button>
             <Button asChild variant="ghost" className="flex items-center gap-2">
               <Link to="/items">
                 <ShoppingBag size={18} />
-                <span>Browse Items</span>
+                <span className="hidden sm:inline">Browse Items</span>
+              </Link>
+            </Button>
+            <Button asChild variant="ghost" className="flex items-center gap-2">
+              <Link to="/login">
+                <LogIn size={18} />
+                <span className="hidden sm:inline">Sign In</span>
+              </Link>
+            </Button>
+            <Button asChild variant="outline" className="flex items-center gap-2">
+              <Link to="/register">
+                <UserPlus size={18} />
+                <span className="hidden sm:inline">Register</span>
               </Link>
             </Button>
           </nav>
