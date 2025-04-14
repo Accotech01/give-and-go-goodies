@@ -35,13 +35,16 @@ const Login = () => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    login(values.email, values.password);
-    toast({
-      title: "Successfully logged in!",
-      description: "Welcome back to Give & Go Goodies",
-    });
-    // Redirect to the page they tried to visit originally
-    navigate(from, { replace: true });
+    const loginSuccess = login(values.email, values.password);
+    
+    if (loginSuccess) {
+      toast({
+        title: "Successfully logged in!",
+        description: "Welcome back to Give & Go Goodies",
+      });
+      // Redirect to the page they tried to visit originally
+      navigate(from, { replace: true });
+    }
   }
 
   return (

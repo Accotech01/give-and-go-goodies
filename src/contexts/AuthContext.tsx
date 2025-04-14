@@ -1,5 +1,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { toast } from "sonner";
 
 type User = {
   id: string;
@@ -10,7 +11,7 @@ type User = {
 type AuthContextType = {
   user: User | null;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => void;
+  login: (email: string, password: string) => boolean;
   register: (name: string, email: string, password: string) => void;
   logout: () => void;
 };
@@ -29,14 +30,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const login = (email: string, password: string) => {
-    // This is a mock login - in a real app, you would validate against a backend
-    const mockUser = {
-      id: '1',
-      name: email.split('@')[0],
-      email,
-    };
-    setUser(mockUser);
-    localStorage.setItem('user', JSON.stringify(mockUser));
+    // Check if the credentials match the specific user
+    if (email === "edetgabriel49@gmail.com" && password === "1234gabriel") {
+      const user = {
+        id: '1',
+        name: 'Gabriel',
+        email: email,
+      };
+      setUser(user);
+      localStorage.setItem('user', JSON.stringify(user));
+      toast("Login successful!");
+      return true;
+    } else {
+      toast("Invalid email or password", {
+        description: "Please check your credentials and try again.",
+        duration: 3000,
+      });
+      return false;
+    }
   };
 
   const register = (name: string, email: string, password: string) => {
