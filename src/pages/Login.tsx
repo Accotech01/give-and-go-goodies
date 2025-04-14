@@ -12,9 +12,10 @@ import { useToast } from '@/hooks/use-toast';
 import { LogIn, Mail, Lock, ArrowRight } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
+// Updated form schema to match the expected user credentials
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
-  password: z.string().min(8, { message: "Password must be at least 8 characters" }),
+  password: z.string().min(1, { message: "Password is required" }),
 });
 
 const Login = () => {
@@ -35,6 +36,7 @@ const Login = () => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("Attempting login with:", values.email, values.password);
     const loginSuccess = login(values.email, values.password);
     
     if (loginSuccess) {
@@ -98,6 +100,12 @@ const Login = () => {
                   </FormItem>
                 )}
               />
+              
+              <div className="text-sm text-gray-500 mb-4">
+                <p>Use these credentials:</p>
+                <p>Email: edetgabriel49@gmail.com</p>
+                <p>Password: 1234gabriel</p>
+              </div>
               
               <Button type="submit" className="w-full">
                 <LogIn className="mr-2 h-4 w-4" /> Sign In
