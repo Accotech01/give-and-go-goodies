@@ -55,24 +55,24 @@ const Items = () => {
               </div>
               
               <div className="flex gap-4">
-                <Select value={selectedCategory || ""} onValueChange={(value) => setSelectedCategory(value || null)}>
+                <Select value={selectedCategory || undefined} onValueChange={(value) => setSelectedCategory(value || null)}>
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Category" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Categories</SelectItem>
+                    <SelectItem value="all-categories">All Categories</SelectItem>
                     {categories.map(category => (
                       <SelectItem key={category} value={category}>{category}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 
-                <Select value={selectedCondition || ""} onValueChange={(value) => setSelectedCondition(value || null)}>
+                <Select value={selectedCondition || undefined} onValueChange={(value) => setSelectedCondition(value || null)}>
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Condition" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Conditions</SelectItem>
+                    <SelectItem value="all-conditions">All Conditions</SelectItem>
                     {conditions.map(condition => (
                       <SelectItem key={condition} value={condition}>{condition}</SelectItem>
                     ))}
