@@ -7,11 +7,13 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import { CalendarIcon, MapPin, ShoppingCart, ArrowLeft } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const ItemDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
   
   const item = items.find(item => item.id === id);
   
@@ -107,6 +109,10 @@ const ItemDetail = () => {
                 <ShoppingCart className="mr-2 h-5 w-5" />
                 Request This Item
               </Button>
+              
+              <p className="text-sm text-center mt-3 text-gray-500">
+                Logged in as {user?.name} ({user?.email})
+              </p>
             </div>
           </div>
         </div>

@@ -7,7 +7,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Search, X } from 'lucide-react';
+import { Search, X, Info } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { Link } from 'react-router-dom';
 
 const categories = [...new Set(items.map(item => item.category))];
 const conditions = [...new Set(items.map(item => item.condition))];
@@ -16,6 +18,7 @@ const Items = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedCondition, setSelectedCondition] = useState<string | null>(null);
+  const { isAuthenticated } = useAuth();
 
   const filteredItems = items.filter(item => {
     const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -37,9 +40,23 @@ const Items = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-6">Available Items</h1>
-          <p className="text-gray-600 mb-8">
+          <p className="text-gray-600 mb-4">
             Browse items that are available for pickup or delivery. All items are free - you only pay for logistics.
           </p>
+          
+          {!isAuthenticated && (
+            <div className="bg-amber-50 border border-amber-200 rounded-md p-4 mb-6 flex items-start gap-3">
+              <Info className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <h3 className="font-medium text-amber-800">Authentication Required</h3>
+                <p className="text-amber-700 text-sm mt-1">
+                  You need to be logged in to request items. Please{' '}
+                  <Link to="/login" className="font-medium underline">sign in</Link> or{' '}
+                  <Link to="/register" className="font-medium underline">register</Link> to continue.
+                </p>
+              </div>
+            </div>
+          )}
           
           {/* Search and filters */}
           <div className="space-y-4">

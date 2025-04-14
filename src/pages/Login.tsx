@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { LogIn, Mail, Lock, ArrowRight } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -18,7 +19,12 @@ const formSchema = z.object({
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
+  const { login } = useAuth();
+  
+  // Get the redirect path from location state or default to home
+  const from = location.state?.from?.pathname || '/';
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -29,13 +35,13 @@ const Login = () => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Simulate login success - in a real app, you would call an API
-    console.log(values);
+    login(values.email, values.password);
     toast({
       title: "Successfully logged in!",
       description: "Welcome back to Give & Go Goodies",
     });
-    navigate('/');
+    // Redirect to the page they tried to visit originally
+    navigate(from, { replace: true });
   }
 
   return (
@@ -46,6 +52,11 @@ const Login = () => {
           <p className="text-gray-600">
             Sign in to continue your giving journey
           </p>
+          {from !== '/' && (
+            <p className="mt-2 text-sm text-primary">
+              You need to sign in to access that page
+            </p>
+          )}
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-md">
